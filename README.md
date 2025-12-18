@@ -2,6 +2,11 @@
 
 Servidor que permite comunicação em tempo real entre usuários através de WebSocket.
 
+![Screenshot](public/Screenshot_1.png)
+
+![Screenshot](public/Screenshot_2.png)
+
+
 ## 🛠️ Feito com
 
 - Java 21
