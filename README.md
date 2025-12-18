@@ -118,5 +118,3 @@ docker run -p 8080:8080 chat-backend
 - **spring-boot-starter-test** - Para testes
 
 ---
-
-Criado com ❤️ usando Spring Boot
