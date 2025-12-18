@@ -1,59 +1,117 @@
-# AngularChatFrontend
+# 💬 Chat em Tempo Real - Backend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+Servidor que permite comunicação em tempo real entre usuários através de WebSocket.
 
-## Development server
+## 🛠️ Feito com
 
-To start a local development server, run:
+- Java 21
+- Spring Boot 3.5.8
+- WebSocket
 
+## 📝 O que você precisa ter instalado
+
+- Java 21
+- Maven
+
+## 🚀 Como rodar o projeto
+
+**Opção 1: Usando Maven**
 ```bash
-ng serve
+mvn spring-boot:run
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+**Opção 2: Gerando JAR e executando**
 ```bash
-ng generate component component-name
+mvn clean package
+java -jar target/chat-0.0.1-SNAPSHOT.jar
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O servidor vai iniciar em: `http://localhost:8080`
 
-```bash
-ng generate --help
+## 📂 Estrutura do projeto
+
+```
+src/main/java/br/com/sistema/chat/
+├── config/           # Configurações do WebSocket e CORS
+├── controller/       # Controla as mensagens do chat
+├── model/           # Modelo da mensagem (ChatMessage)
+└── ChatApplication  # Arquivo principal
 ```
 
-## Building
+## 💡 Como funciona
 
-To build the project run:
+1. O cliente (frontend) conecta no servidor
+2. Usuário escolhe uma sala para conversar
+3. Quando envia uma mensagem, ela é transmitida para todos na mesma sala
+4. Todos recebem a mensagem em tempo real
 
-```bash
-ng build
+## 🔌 Endpoints importantes
+
+- **Conectar**: `/ws`
+- **Enviar mensagem**: `/app/chat.send/{sala}`
+- **Receber mensagens**: `/topic/chat/{sala}`
+
+## 📋 Formato da mensagem
+
+```json
+{
+  "from": "Nome do usuário",
+  "content": "Texto da mensagem",
+  "timestamp": "2024-12-17T18:30:00"
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## ⚙️ Configuração
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+### Porta do servidor
+Por padrão roda na porta **8080**. Para mudar, edite `application.properties`:
+```properties
+server.port=8080
 ```
 
-## Running end-to-end tests
+### Permitir acesso do frontend
+O CORS já está configurado para aceitar requisições de:
+- `http://localhost:4200` (Angular)
 
-For end-to-end (e2e) testing, run:
+## ❗ Problemas comuns
 
-```bash
-ng e2e
+**Porta 8080 já está em uso?**
+- Feche outros programas usando essa porta
+- Ou mude a porta no `application.properties`
+
+**Erro de CORS?**
+- Verifique se o frontend está rodando em `localhost:4200`
+- Ou adicione a nova URL em `CorsConfig.java`
+
+**Mensagens não chegam?**
+- Confirme que o cliente está conectado
+- Verifique se está enviando para a sala correta
+
+## 🐳 Rodando com Docker (opcional)
+
+1. Crie um arquivo `Dockerfile`:
+```dockerfile
+FROM eclipse-temurin:21-jdk-alpine
+WORKDIR /app
+COPY target/chat-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+2. Rode os comandos:
+```bash
+mvn clean package
+docker build -t chat-backend .
+docker run -p 8080:8080 chat-backend
+```
 
-## Additional Resources
+## 📦 Dependências
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **spring-boot-starter-web** - Para criar a API REST
+- **spring-boot-starter-websocket** - Para WebSocket
+- **spring-boot-starter-validation** - Para validar dados
+- **spring-boot-starter-test** - Para testes
+
+---
+
+Criado com ❤️ usando Spring Boot
