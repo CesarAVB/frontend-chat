@@ -1,0 +1,105 @@
+<div class="chat-container">
+  <div class="chat-wrapper">
+    <div class="chat-header">
+      <h1 class="title">Chat em Tempo Real</h1>
+      <p class="subtitle">Conecte-se e converse com outras pessoas</p>
+    </div>
+
+  <div class="connection-panel">
+    <div class="input-group">
+      <div class="input-field">
+        <span class="input-icon">👤</span>
+        <label>Nome</label>
+        <input 
+          type="text" 
+          [(ngModel)]="username" 
+          placeholder="Seu nome"
+          [disabled]="isConnected"
+          class="input"
+        />
+      </div>
+
+      <div class="input-field">
+        <span class="input-icon">#</span>
+        <label>Sala</label>
+        <input 
+          type="text" 
+          [(ngModel)]="roomName" 
+          [value]="roomName"
+          [disabled]="isConnected"
+          class="input"
+        />
+      </div>
+    </div>
+
+    <div class="connection-status">
+      <button 
+        *ngIf="!isConnected"
+        (click)="connect()" 
+        class="btn-connect"
+        [disabled]="!username.trim()"
+      >
+        🎤 Conectar
+      </button>
+
+      <button 
+        *ngIf="isConnected"
+        (click)="disconnect()" 
+        class="btn-disconnect"
+      >
+        🔴 Desconectar
+      </button>
+
+      <div class="status" [class.online]="isConnected">
+        <span class="status-dot"></span>
+        {{ isConnected ? 'Online' : 'Offline' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="messages-container">
+    <div class="messages-area" *ngIf="isConnected && messages.length > 0">
+      <div 
+        class="message" 
+        *ngFor="let message of messages"
+        [class.message-sent]="message.username === username"
+        [class.message-received]="message.username !== username"
+      >
+        <div class="message-header">
+          <span class="message-username">{{ message.username }}</span>
+          <span class="message-time">{{ message.timestamp | date:'HH:mm' }}</span>
+        </div>
+        <div class="message-content">{{ message.content }}</div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!isConnected || messages.length === 0">
+      <div class="empty-icon">💬</div>
+      <p class="empty-title">Nenhuma mensagem ainda</p>
+      <p class="empty-text">Comece uma conversa!</p>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input 
+      type="text" 
+      [(ngModel)]="messageInput"
+      (keyup.enter)="sendMessage()"
+      [disabled]="!isConnected"
+      placeholder="Conecte-se para enviar mensagens..."
+      class="message-input"
+    />
+    <button 
+      (click)="sendMessage()" 
+      [disabled]="!isConnected || !messageInput.trim()"
+      class="btn-send"
+    >
+      ✈️
+    </button>
+  </div>
+
+  <div class="footer">
+    <span>WebSocket Chat • 2025 • Desenvolvido por César Augusto com Angular</span>
+  </div>
+  </div>
+</div>
