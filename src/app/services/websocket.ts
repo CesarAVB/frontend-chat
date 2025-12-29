@@ -23,7 +23,7 @@ export class WebSocketService {
 
   connect(username: string, roomName: string): void {
     // Cria o socket SockJS apontando para o endpoint /ws do backend
-    const socket = new SockJS(`${environment.apiUrl}`);
+    const socket = new SockJS(`${environment.apiUrl}/ws`);
     
     // Configura o cliente STOMP
     this.stompClient = new Client({

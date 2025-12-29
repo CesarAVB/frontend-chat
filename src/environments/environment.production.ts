@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://websocket-chat.cesaravb.com.br/ws'
+  apiUrl: 'https://api-chat.cesaravb.com.br'
 };
