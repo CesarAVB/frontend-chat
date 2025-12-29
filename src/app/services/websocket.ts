@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ChatMessage {
   from: string;
@@ -22,7 +23,7 @@ export class WebSocketService {
 
   connect(username: string, roomName: string): void {
     // Cria o socket SockJS apontando para o endpoint /ws do backend
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS(`${environment.apiUrl}/ws`);
     
     // Configura o cliente STOMP
     this.stompClient = new Client({
